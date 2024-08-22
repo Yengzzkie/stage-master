@@ -12,7 +12,7 @@ function App() {
   // Function to fetch posts from the server
   async function fetchPosts() {
     try {
-      const response = await fetch('http://localhost:8080/');
+      const response = await fetch('http://localhost:8080/posts');
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -34,7 +34,7 @@ function App() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/new', {
+      const response = await fetch('http://localhost:8080/posts/new', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function App() {
   // Function to handle deletion of a post
   async function handleDelete(postId) {
     try {
-      const response = await fetch(`http://localhost:8080/delete/${postId}`, {
+      const response = await fetch(`http://localhost:8080/posts/${postId}`, {
         method: 'DELETE',
       });
 
