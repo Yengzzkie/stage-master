@@ -1,4 +1,4 @@
-import './index.css';
+import '../index.css';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -24,11 +24,29 @@ function App() {
       console.error('Error fetching posts:', error);
     }
   }
-
+  
+  // Fetch all users in the DB
+  async function getAllUsers() {
+    try {
+      const response = await fetch("http://localhost:8080/user");
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const users = await response.json();
+      console.log(users); // Log the users
+    } catch (error) {
+      console.error("Failed fetching users", error);
+    }
+  }
+  
   // Fetch posts on component mount
   useEffect(() => {
+    getAllUsers();
     fetchPosts();
   }, []); // Empty dependency array means this useEffect runs only on mount
+
 
   // Function to handle form submission
   async function handleSubmit(event) {
@@ -83,8 +101,8 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center shadow-sm shadow-gray-500 rounded-md width-full p-4">
-      <form onSubmit={handleSubmit} className="flex flex-col">
+    <div className="flex justify-evenly items-start item">
+      <form onSubmit={handleSubmit} className="flex flex-col text-black shadow-sm shadow-gray-500 rounded-md p-4">
         <label htmlFor="id" className="text-amber-500">ID:</label>
         <input
           type="number"
@@ -111,7 +129,7 @@ function App() {
           onChange={handleChange}
         />
 
-        <button type="submit">Submit</button>
+        <button className="text-white" type="submit">Submit</button>
       </form>
 
       <ul>
