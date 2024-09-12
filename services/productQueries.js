@@ -1,12 +1,12 @@
 const prisma = require('../db/prismaClient');
 
 // Get all products
-async function getAllProduct() {
+async function getAllProductQuery() {
   return await prisma.product.findMany();
 }
 
 // Create one product 
-async function createProduct(productData) {
+async function createProductQuery(productData) {
   const { productName, SKU, description, quantity, price, shelfNumber, aisleId } = productData;
 
   try {
@@ -15,10 +15,10 @@ async function createProduct(productData) {
         name: productName,
         sku: SKU,
         description: description,
-        quantity: quantity,
-        price: price,
-        shelfNumber: shelfNumber,
-        aisleId: aisleId
+        quantity: parseInt(quantity),
+        price: parseFloat(price),
+        shelfNumber: parseInt(shelfNumber),
+        aisleId: parseInt(aisleId)
       }
     });
     return newProduct; 
@@ -28,4 +28,4 @@ async function createProduct(productData) {
   }
 }
 
-module.exports = { getAllProduct, createProduct };
+module.exports = { getAllProductQuery, createProductQuery };

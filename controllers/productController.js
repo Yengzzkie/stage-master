@@ -3,7 +3,7 @@ const db = require('../services/productQueries');
 // Get all products
 async function getAllProducts(req, res) {
     try {
-        const products = await db.getAllProduct();
+        const products = await db.getAllProductQuery();
         res.json(products);
     } catch (error) {
         console.error('Failed to fetch products', error.message);
@@ -14,9 +14,8 @@ async function getAllProducts(req, res) {
 // Create/insert new product
 async function createProduct(req, res) {
     try {
-        const { productName, sku, description, price, category, stockQuantity, unitOfMeasurement } = req.body;
-        const response = await db.createProduct(productName, sku, description, price, category, stockQuantity, unitOfMeasurement);
-        res.status(201).send('Successfully created new product');
+        const newProduct = await db.createProductQuery(req.body);
+        res.status(201).json(newProduct);
     } catch (error) {
         console.error('Failed to create new product', error.message);
         res.status(500).send('Failed to create new product')
