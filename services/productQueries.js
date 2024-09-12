@@ -28,4 +28,23 @@ async function createProductQuery(productData) {
   }
 }
 
-module.exports = { getAllProductQuery, createProductQuery };
+// Search for a single product
+async function searchProductQuery(productData) {
+
+  try {
+    const product = await prisma.product.findMany({
+      where: {
+        name: {
+          contains: productData,
+          mode: 'insensitive'
+        }
+      }
+    });
+    return product;
+  } catch (error) {
+    console.error('There\'s product that goes by that name', error.message);
+    throw error;
+  }
+}
+
+module.exports = { getAllProductQuery, createProductQuery, searchProductQuery };

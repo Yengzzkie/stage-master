@@ -26,9 +26,19 @@ async function createProduct(req, res) {
 async function findProduct(req, res) {
     try {
         const searchQuery = req.query.product;
-        const response = await db.searchProduct(searchQuery);
-        console.log(searchQuery)
-        res.json(response);
+
+        // check for empty query
+        if (!searchQuery) {
+            return res.status(400).send('Product query is required');
+        }
+
+        const product = await db.searchProductQuery(searchQuery);
+
+        if (!product.length) {
+            return res.status(404).send('No product found with that name');
+        }
+
+        res.status(200).json(product);
     } catch (error) {
         console.error('There is no product that goes by that name', error.message);
         res.status(500).send('There is no product that goes by that name')
@@ -39,8 +49,7 @@ async function findProduct(req, res) {
 async function deleteAllProducts(req, res) {
     try {
         await db.deleteAllProducts();
-        console.log('Successfully deleted all products');
-        res.json({message: 'Products successfully deleted'});
+        res.status(200).json({message: 'Products successfully deleted'});
     } catch (error) {
         console.error('Failed to delete products', error.message);
         res.status(500).send('Failed to delete all products');

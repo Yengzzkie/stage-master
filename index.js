@@ -1,15 +1,22 @@
 const prisma = require("./db/prismaClient");
 const { getAllProduct, createProduct } = require("./services/productQueries");
-const { getAllProducts } = require('./controllers/productController');
-const { getAllAisle } = require('./services/aisleQueries')
+const { getAllProducts } = require("./controllers/productController");
+const { getAllAisle } = require("./services/aisleQueries");
 
 // *********************************************
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
+  const product = await prisma.product.findMany({
+    where: {
+      name: {
+        contains: 'carrot',
+        mode: 'insensitive'
+      }
+    },
+  });
 
-  const products = await getAllAisle();
-  console.log(products);
+  console.log(product)
 }
 
 main()
