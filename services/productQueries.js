@@ -28,7 +28,7 @@ async function createProductQuery(productData) {
   }
 }
 
-// Search for a single product
+// Search for a product with matching query parameter
 async function searchProductQuery(productData) {
 
   try {

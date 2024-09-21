@@ -10,7 +10,7 @@ async function main() {
   const product = await prisma.product.findMany({
     where: {
       name: {
-        contains: 'carrot',
+        contains: 'pot',
         mode: 'insensitive'
       }
     },
